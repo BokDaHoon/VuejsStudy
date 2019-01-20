@@ -15,15 +15,15 @@
 				<label for="toggle-all">Mark all as complete</label>
 				<ul class="todo-list">
           <li
-          v-for="todo in todos"
-          :key="todo.id"
-          :class="{ completed: todo.state === 'completed' }">
+            v-for="todo in todosVuex"
+            :key="todo.id"
+            :class="{ completed: todo.state === 'completed' }">
             <div class="view">
               <input
-              class="toggle"
-              type="checkbox"
-              @click="onClickCheckBox(todo.id)"
-              :value="todo.text">
+                class="toggle"
+                type="checkbox"
+                @click="onClickCheckBox(todo.id)"
+                :value="todo.text">
               <label>{{todo.text}}</label>
               <button class="destroy" @click="onClickTodoDelete(todo.id)"></button>
             </div>
@@ -56,6 +56,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters, mapState } from 'vuex';
 
 const FILTER = {
   ALL: 'ALL',
@@ -74,6 +75,10 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      todosVuex: (state) => state.todo.todos,
+    }),
+    ...mapGetters(['activeTodos']),
     todos() {
       switch (this.currentFilter) {
         case FILTER.ALL:
@@ -87,11 +92,13 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['addInputTodo']),
     onInputTodo() {
       if (!this.inputValue) {
         return;
       }
-      this.originTodos.push({ id : this.originTodos.length, text : this.inputValue, state: 'none' });
+      this.addInputTodo({ id : this.originTodos.length, text : this.inputValue, state: 'none' });
+      // this.originTodos.push({ id : this.originTodos.length, text : this.inputValue, state: 'none' });
       this.inputValue = '';
     },
     onClickTodoDelete(id) {
