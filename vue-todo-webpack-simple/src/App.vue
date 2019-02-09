@@ -3,7 +3,7 @@
     <section class="todoapp">
 			<header class="header">
 				<h1>todos</h1>
-				<input class="new-todo" v-model="todoMsg" placeholder="What needs to be done?" @keydown.enter ="addTodo" autofocus>
+        <TodoInput @inputTodo="onAddItem"></TodoInput>
 			</header>
 			<section class="main">
 				<input id="toggle-all" class="toggle-all" type="checkbox">
@@ -50,29 +50,31 @@
 <script>
 
 // let todos = [];
-import {mapActions, mapGetters, mapState} from 'vuex';
+// import {mapActions, mapGetters, mapState} from 'vuex';
+import TodoInput from './components/TodoInput.vue'
 
 export default {
   name: 'app',
+  components : {TodoInput},
   data () {
     return {
       // msg: 'Welcome to Your Vue.js App'
       todos: [{ todoId: 1, todoMsg: "Test", isCompleted : false}],
-      todosTemp : [],
       // isCompleted : false,
     }
   },
 
   methods: {
-     addTodo(index) {
+     onAddItem(msg) {
+        console.log("test");
+        console.log(msg);
         let newTodo = {
           todoId : this.todos.length + 1,
-          todoMsg : this.todoMsg,
+          todoMsg : msg,
           isCompleted: false,
         }
 
         this.todos.push(newTodo);
-        this.todoMsg = "";
       },
 
       toggleComplete(index) {
