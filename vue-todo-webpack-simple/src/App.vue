@@ -98,47 +98,7 @@ export default {
   }
 }
 
-
-// export default {
-//   data () {
-//     return {
-//       // data 속성 등록
-//       msg: 'Welcome to Your Vue.js App'
-//     }
-//   },
-
-//   methods: {
-//       addCounter(index) {
-//         return this.$set(this.numbers,index, {...this.numbers[index], number : this.numbers[index].number + 1});
-//       },
-//       minusCounter(index) {
-//         //  return this.number--;
-//         return this.$set(this.numbers,index, {...this.numbers[index], number : this.numbers[index].number - 1});
-//       },
-
-//       createNumber() {
-//         let newNumber = {
-//           number : this.numbers[this.numbers.length-1].number + 1,
-//           color : 'red'
-//         }
-
-//         this.numbers.push(newNumber);
-//       },
-//       removeNumber() {
-//         this.numbers.splice(numbers.length-1);
-//       }
-//     },
-
-//   computed: {
-//     numberLabel() {
-//       return this.number + "원";
-//     }
-//   },
-
-//   components: {
-//     'calculator': Calculator
-//   },
-// }
+//주석제거
 
 
 
