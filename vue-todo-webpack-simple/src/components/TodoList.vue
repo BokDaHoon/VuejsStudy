@@ -1,16 +1,18 @@
 <template>
   <ul class="todo-list">
-    <li v-for="(item, index) in todoItems" :key="item.id" :class="{completed: item.status}">
+    <li v-for="(item, index) in todoItems" :key="item.id" :class="{completed: item.status === FILTER.COMPLETED}">
+
       <div class="view">
-        <input class="toggle" type="checkbox" @click="updateStatus(index)">
+        <input class="toggle" type="checkbox" @click="onClickUpdateStatus(index)">
         <label>{{item.todo}}</label>
-        <button class="destroy" @click="destroyItem(index)"></button>
+        <button class="destroy" @click="onClickDestroyItem(index)"></button>
       </div>
     </li>
   </ul>
 </template>
 
 <script>
+import { FILTER } from '../constants.js'
 export default {
   name: 'TodoList',
   props: {
@@ -21,13 +23,14 @@ export default {
   },
   data () {
     return {
+      FILTER
     }
   },
   methods: {
-    updateStatus(id) {
+    onClickUpdateStatus(id) {
       this.$emit('updateStatus', id);
     },
-    destroyItem(id) {
+    onClickDestroyItem(id) {
       this.$emit('destroyItem', id);
     },
   },
