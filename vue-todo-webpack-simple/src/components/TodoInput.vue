@@ -1,5 +1,5 @@
 <template>
-  <input class="new-todo" v-model="todoMsg" placeholder="What needs to be done?" @keydown.enter ="addItme" autofocus>
+  <input class="new-todo" v-model="todoMsg" placeholder="What needs to be done?" @keydown.enter ="onKeydownAddTodo" autofocus>
 </template>
 
 <script>
@@ -12,7 +12,7 @@ export default {
   },
 
   methods: {
-     addItme() {
+     onKeydownAddTodo() {
         this.$emit('inputTodo', this.todoMsg);
         this.todoMsg = "";
       },

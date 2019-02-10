@@ -3,40 +3,14 @@
     <section class="todoapp">
 			<header class="header">
 				<h1>todos</h1>
-        <TodoInput @inputTodo="onAddItem"></TodoInput>
+        <TodoInput @inputTodo="addTodo"></TodoInput>
 			</header>
 			<section class="main">
 				<input id="toggle-all" class="toggle-all" type="checkbox">
 				<label for="toggle-all">Mark all as complete</label>
-				<ul class="todo-list">
-
-          <li
-              v-for = "(todo,index) in todos" :key="index"
-              v-bind:class="{ completed: todo.isCompleted }">
-              <div class="view">
-                <input class="toggle" type="checkbox" @click.left="toggleComplete(index)">
-                <label>{{ todo.todoMsg }}</label>
-                <button class="destroy">{{todo.isCompleted}}</button>
-              </div>
-          </li>
-
-        </ul>
+        <TodoList :todos= todos @changeStateTodo="changeState" @destroyTodo = "destroyTodo"></TodoList>
 			</section>
-			<footer class="footer">
-				<span class="todo-count"></span>
-				<ul class="filters">
-					<li>
-						<a href="#/" class="selected">All</a>
-					</li>
-					<li>
-						<a href="#/active" @click.left="allActive">Active</a>
-					</li>
-					<li>
-						<a href="#/completed">Completed</a>
-					</li>
-				</ul>
-				<button class="clear-completed">Clear completed</button>
-			</footer>
+      <TodoFooter @allTodo = "changeAllState" @clearCompleted = "clearCompleted"></TodoFooter>
 		</section>
 		<footer class="info">
 			<p>Double-click to edit a todo</p>
@@ -51,53 +25,51 @@
 
 // let todos = [];
 // import {mapActions, mapGetters, mapState} from 'vuex';
+import { FILTER } from './constant.js'
 import TodoInput from './components/TodoInput.vue'
+import TodoList from './components/TodoList.vue'
+import TodoFooter from './components/TodoFooter.vue'
 
 export default {
   name: 'app',
-  components : {TodoInput},
+  components : {TodoInput, TodoList, TodoFooter},
   data () {
     return {
-      // msg: 'Welcome to Your Vue.js App'
-      todos: [{ todoId: 1, todoMsg: "Test", isCompleted : false}],
-      // isCompleted : false,
+      todos: [{ todoId: 1, todoMsg: "Test", state : FILTER.ACTIVE}],
     }
   },
 
   methods: {
-     onAddItem(msg) {
-        console.log("test");
-        console.log(msg);
+     addTodo(msg) {
         let newTodo = {
           todoId : this.todos.length + 1,
           todoMsg : msg,
-          isCompleted: false,
+          state: FILTER.ACTIVE,
         }
-
         this.todos.push(newTodo);
       },
 
-      toggleComplete(index) {
-        //  return this.number--;
-
-        this.$set(this.todos,index, {...this.todos[index], isCompleted : this.todos[index].isCompleted? false : true })
-
-      // return this.$set(this.todos,index, {...this.todos[index], isCompleted : this.todos[index].isCompleted? false : true });
+      changeAllState() {
+        // this.todos.forEach((todo,index) => {
+        //   if(todo.state === FILTER.ACTIVE) {
+        //     this.todos[index].state = FILTER.COMPLETED;
+        //   }
+        // });
       },
 
-      allActive() {
+      changeState(index) {
+        this.$set(this.todos,index, {...this.todos[index], state : this.todos[index].state === FILTER.ACTIVE? FILTER.COMPLETED : FILTER.ACTIVE })
+      },
 
-        this.todos.filter((n) => {
-           console.log(n);
-        });
+      destroyTodo(index) {
+        this.todos.splice(index, 1);
+      },
 
+      clearCompleted() {
+        console.log("this");
+        this.todos = this.todos.filter((todo) => todo.state === FILTER.ACTIVE);
       },
   },
-  computed : {
-    // ...mapState({
-    //   todosVuex : state.todo.todos,
-    // }),
-  }
 }
 
 //주석제거
