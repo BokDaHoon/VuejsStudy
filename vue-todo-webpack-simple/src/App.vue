@@ -3,14 +3,14 @@
     <section class="todoapp">
 			<header class="header">
 				<h1>todos</h1>
-        <TodoInput @inputTodo="addTodo"></TodoInput>
+        <TodoInput></TodoInput>
 			</header>
 			<section class="main">
 				<input id="toggle-all" class="toggle-all" type="checkbox">
 				<label for="toggle-all">Mark all as complete</label>
-        <TodoList :todos= todos @changeStateTodo="changeState" @destroyTodo = "destroyTodo"></TodoList>
+        <TodoList></TodoList>
 			</section>
-      <TodoFooter @allTodo = "changeAllState" @clearCompleted = "clearCompleted"></TodoFooter>
+      <TodoFooter ></TodoFooter>
 		</section>
 		<footer class="info">
 			<p>Double-click to edit a todo</p>
@@ -29,42 +29,18 @@ import { FILTER } from './constant.js'
 import TodoInput from './components/TodoInput.vue'
 import TodoList from './components/TodoList.vue'
 import TodoFooter from './components/TodoFooter.vue'
+import {mapActions, mapGetters, mapState} from 'vuex';
 
 export default {
   name: 'app',
   components : {TodoInput, TodoList, TodoFooter},
   data () {
     return {
-      todos: [{ todoId: 1, todoMsg: "Test", state : FILTER.ACTIVE}],
+      todos : this.$store.getters.getTodos,
     }
   },
 
   methods: {
-     addTodo(msg) {
-        let newTodo = {
-          todoId : this.todos.length + 1,
-          todoMsg : msg,
-          state: FILTER.ACTIVE,
-        }
-        this.todos.push(newTodo);
-      },
-
-      changeAllState() {
-        // this.todos.forEach((todo,index) => {
-        //   if(todo.state === FILTER.ACTIVE) {
-        //     this.todos[index].state = FILTER.COMPLETED;
-        //   }
-        // });
-      },
-
-      changeState(index) {
-        this.$set(this.todos,index, {...this.todos[index], state : this.todos[index].state === FILTER.ACTIVE? FILTER.COMPLETED : FILTER.ACTIVE })
-      },
-
-      destroyTodo(index) {
-        this.todos.splice(index, 1);
-      },
-
       clearCompleted() {
         console.log("this");
         this.todos = this.todos.filter((todo) => todo.state === FILTER.ACTIVE);

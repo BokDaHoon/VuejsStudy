@@ -1,12 +1,12 @@
 <template>
   <ul class="todo-list">
-    <li v-for = "(todo,index) in todos" :key="index"
+    <li v-for = "(todo,index) in getTodos" :key="index" v-show = 'getShowState === FILTER.ALL || todo.state === getShowState'
         :class="{ completed: todo.state === FILTER.COMPLETED }">
 
         <div class="view">
-          <input class="toggle" type="checkbox" @click.left="onClickChangeState(index)">
+          <input class="toggle" type="checkbox" @click.left="changeState(todo.id)">
           <label>{{ todo.todoMsg }}</label>
-          <button class="destroy" @click.left="onClickDestroyTodo(index)"></button>
+          <button class="destroy" @click.left="destroyTodo(todo.id)"></button>
         </div>
 
     </li>
@@ -15,14 +15,10 @@
 
 <script>
 import { FILTER } from '../constant.js'
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   name: 'TodoList',
-  props : {
-    todos: {
-      type: Array,
-      required: true,
-    }
-  },
 
   data () {
     return {
@@ -31,12 +27,23 @@ export default {
   },
 
   methods: {
-      onClickChangeState(index) {
-        this.$emit('changeStateTodo', index);
-      },
-      onClickDestroyTodo(index) {
-        this.$emit('destroyTodo', index);
-      },
+    ...mapActions(['changeTodoState', 'destroyTodoState']),
+    changeState(id) {
+      this.changeTodoState(id);
+    },
+    destroyTodo(id) {
+      this.destroyTodoState(id);
+    },
+  },
+
+  computed:{
+    ...mapGetters([
+        'getTodos',
+        'getShowState',
+      ]),
+    getShowTodos() {
+      return getTodos;
+    }
   },
 }
 
