@@ -3,28 +3,14 @@
     <section class="todoapp">
 			<header class="header">
 				<h1>todos</h1>
-				<input class="new-todo" placeholder="What needs to be done?" autofocus>
+        <TodoInput></TodoInput>
 			</header>
 			<section class="main">
 				<input id="toggle-all" class="toggle-all" type="checkbox">
 				<label for="toggle-all">Mark all as complete</label>
-				<ul class="todo-list"></ul>
+        <TodoList></TodoList>
 			</section>
-			<footer class="footer">
-				<span class="todo-count"></span>
-				<ul class="filters">
-					<li>
-						<a href="#/" class="selected">All</a>
-					</li>
-					<li>
-						<a href="#/active">Active</a>
-					</li>
-					<li>
-						<a href="#/completed">Completed</a>
-					</li>
-				</ul>
-				<button class="clear-completed">Clear completed</button>
-			</footer>
+      <TodoFooter ></TodoFooter>
 		</section>
 		<footer class="info">
 			<p>Double-click to edit a todo</p>
@@ -36,14 +22,37 @@
 </template>
 
 <script>
+
+// let todos = [];
+// import {mapActions, mapGetters, mapState} from 'vuex';
+import { FILTER } from './constant.js'
+import TodoInput from './components/TodoInput.vue'
+import TodoList from './components/TodoList.vue'
+import TodoFooter from './components/TodoFooter.vue'
+import {mapActions, mapGetters, mapState} from 'vuex';
+
 export default {
   name: 'app',
+  components : {TodoInput, TodoList, TodoFooter},
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      todos : this.$store.getters.getTodos,
     }
-  }
+  },
+
+  methods: {
+      clearCompleted() {
+        console.log("this");
+        this.todos = this.todos.filter((todo) => todo.state === FILTER.ACTIVE);
+      },
+  },
 }
+
+//주석제거
+
+
+
+
 </script>
 
 <style>
@@ -67,7 +76,9 @@ ul {
 
 li {
   display: inline-block;
-  margin: 0 10px;
+  width: 100%;
+  text-align : left;
+  margin: 0 0px;
 }
 
 a {
