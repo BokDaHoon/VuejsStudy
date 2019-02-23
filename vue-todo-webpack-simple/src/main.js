@@ -8,5 +8,8 @@ import { store } from './store';
 new Vue({
   el: '#app',
   store,
+  created () {
+    store.dispatch('loadInputTodo');
+  },
   render: h => h(App)
 })

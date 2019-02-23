@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+import { FILTER } from '../constants.js'
 export default {
   name: 'TodoInput',
   data () {
@@ -10,9 +12,22 @@ export default {
       todoMsg: '',
     }
   },
+  computed: {
+    ...mapGetters([
+      'getTodosNewId'
+    ]),
+  },
   methods: {
+    ...mapActions([
+      'addInputTodo'
+    ]),
     onKeyupAddItem() {
-      this.$emit('inputObj', this.todoMsg);
+      let itemFormat = {
+        // id : this.getTodosNewId,
+        todo : this.todoMsg,
+        status : FILTER.ACTIVE
+      }
+      this.addInputTodo(itemFormat);
     },
   },
 }
