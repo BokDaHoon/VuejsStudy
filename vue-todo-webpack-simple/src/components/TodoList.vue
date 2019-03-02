@@ -4,7 +4,7 @@
         :class="{ completed: todo.state === FILTER.COMPLETED }">
 
         <div class="view">
-          <input class="toggle" type="checkbox" @click.left="changeState(todo.id)">
+          <input class="toggle" type="checkbox" :checked="todo.state === FILTER.COMPLETED" @click.left="changeState(todo)">
           <label>{{ todo.todoMsg }}</label>
           <button class="destroy" @click.left="destroyTodo(todo.id)"></button>
         </div>
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { FILTER } from '../constant.js'
+import { FILTER } from '../constant'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -27,9 +27,10 @@ export default {
   },
 
   methods: {
-    ...mapActions(['changeTodoState', 'destroyTodoState']),
-    changeState(id) {
-      this.changeTodoState(id);
+    ...mapActions(['changeTodoState', 'destroyTodoState' , 'initTodo']),
+    changeState(todo) {
+      todo.state = todo.state === FILTER.ACTIVE? FILTER.COMPLETED : FILTER.ACTIVE;
+      this.changeTodoState(todo);
     },
     destroyTodo(id) {
       this.destroyTodoState(id);
@@ -45,6 +46,9 @@ export default {
       return getTodos;
     }
   },
+  created () {
+    this.initTodo();
+  }
 }
 
 

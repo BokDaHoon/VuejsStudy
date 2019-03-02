@@ -1,23 +1,26 @@
 import MUTATION_TYPES from '../mutationTypes';
-import {FILTER} from '../../constant';
+import { FILTER } from '../../constant'
 
 
 export default {
-  [MUTATION_TYPES.ADD_TODO_INPUT]:(state, todo) => {
-    state.todos.push(todo);
-    state.newTodoId++;
+
+  [MUTATION_TYPES.INIT_TODO]:(state, todos) => {
+    state.todos = todos;
   },
-  [MUTATION_TYPES.CHANGE_TODO_STATE]:(state, id) => {
-    //왜 todos를 배열로 인식 못하는지 모르겠음 .... 그래서 프로토타입 사용함.
-    Array.prototype.some.call(state.todos, todo => {
-      if(todo.id == id) {
-        todo.state = todo.state === FILTER.ACTIVE? FILTER.COMPLETED : FILTER.ACTIVE;
+
+  [MUTATION_TYPES.ADD_TODO_INPUT]:(state, newTodo) => {
+    state.todos.push(newTodo);
+  },
+  [MUTATION_TYPES.CHANGE_TODO_STATE]:(state, payLoad) => {
+    state.todos.forEach(todo => {
+      if(todo.id == payLoad.id) {
+        todo.state = payLoad.state;
         return true;
       }
     });
   },
   [MUTATION_TYPES.DESTROY_TODO]:(state, id) => {
-    Array.prototype.some.call(state.todos, (todo, index) => {
+    state.todos.forEach((todo, index) => {
       if(todo.id == id) {
         state.todos.splice(index, 1);
         return true;

@@ -17,8 +17,7 @@
 </template>
 
 <script>
-
-import { FILTER } from '../constant.js'
+import { FILTER } from '../constant'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -52,15 +51,7 @@ export default {
         'getShowState',
     ]),
   },
-
-
 }
-
-//주석제거
-
-
-
-
 </script>
 
 <style>

@@ -6,6 +6,7 @@ import './css/base.css'
 import './js/base.js'
 import { store } from './store';
 
+// Vue.prototype.$http = axios;
 
 new Vue({
   el: '#app',

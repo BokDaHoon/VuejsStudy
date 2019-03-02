@@ -5,8 +5,4 @@ export default {
   getShowState : function(state) {
     return state.showState;
   },
-  getNewId : function(state) {
-    return state.newTodoId;
-  },
-
 }

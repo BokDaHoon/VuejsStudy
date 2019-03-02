@@ -3,14 +3,14 @@
     <section class="todoapp">
 			<header class="header">
 				<h1>todos</h1>
-        <TodoInput></TodoInput>
+        <TodoInput/>
 			</header>
 			<section class="main">
 				<input id="toggle-all" class="toggle-all" type="checkbox">
 				<label for="toggle-all">Mark all as complete</label>
-        <TodoList></TodoList>
+        <TodoList/>
 			</section>
-      <TodoFooter ></TodoFooter>
+      <TodoFooter/>
 		</section>
 		<footer class="info">
 			<p>Double-click to edit a todo</p>
@@ -22,10 +22,7 @@
 </template>
 
 <script>
-
-// let todos = [];
-// import {mapActions, mapGetters, mapState} from 'vuex';
-import { FILTER } from './constant.js'
+import { FILTER } from './constant'
 import TodoInput from './components/TodoInput.vue'
 import TodoList from './components/TodoList.vue'
 import TodoFooter from './components/TodoFooter.vue'
@@ -34,24 +31,7 @@ import {mapActions, mapGetters, mapState} from 'vuex';
 export default {
   name: 'app',
   components : {TodoInput, TodoList, TodoFooter},
-  data () {
-    return {
-      todos : this.$store.getters.getTodos,
-    }
-  },
-
-  methods: {
-      clearCompleted() {
-        console.log("this");
-        this.todos = this.todos.filter((todo) => todo.state === FILTER.ACTIVE);
-      },
-  },
 }
-
-//주석제거
-
-
-
 
 </script>
 

@@ -5,7 +5,7 @@
 <script>
 
 import { mapActions, mapGetters } from 'vuex'
-import { FILTER } from '../constant.js'
+import { FILTER } from '../constant'
 
 export default {
   name: 'TodoInput',
@@ -20,7 +20,6 @@ export default {
     ...mapActions(['addInputTodo']),
     addTodo() {
       let newTodo = {
-        id : this.getNewId,
         todoMsg : this.todoMsg,
         state: FILTER.ACTIVE,
       }
@@ -30,7 +29,6 @@ export default {
   },
 
   computed: mapGetters([
-    'getNewId'
     ]),
 
 }
