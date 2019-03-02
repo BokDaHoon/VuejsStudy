@@ -1,29 +1,29 @@
-<template>
+  <template>
   <div id="app">
     <section class="todoapp">
 			<header class="header">
 				<h1>todos</h1>
-				<input class="new-todo" placeholder="What needs to be done?" autofocus>
+        <TodoInput></TodoInput>
 			</header>
 			<section class="main">
 				<input id="toggle-all" class="toggle-all" type="checkbox">
 				<label for="toggle-all">Mark all as complete</label>
-				<ul class="todo-list"></ul>
+        <TodoList></TodoList>
 			</section>
 			<footer class="footer">
 				<span class="todo-count"></span>
 				<ul class="filters">
 					<li>
-						<a href="#/" class="selected">All</a>
+						<a href="#/" @click.prevent="filter=setFilter(FILTER.ALL)" class="selected">All</a>
 					</li>
 					<li>
-						<a href="#/active">Active</a>
+						<a href="#/active" @click.prevent="filter=setFilter(FILTER.ACTIVE)">Active</a>
 					</li>
 					<li>
-						<a href="#/completed">Completed</a>
+						<a href="#/completed" @click.prevent="filter=setFilter(FILTER.COMPLETED)">Completed</a>
 					</li>
 				</ul>
-				<button class="clear-completed">Clear completed</button>
+				<button @click="clearCompleted" class="clear-completed">Clear completed</button>
 			</footer>
 		</section>
 		<footer class="info">
@@ -36,41 +36,36 @@
 </template>
 
 <script>
+
+import TodoInput from './components/TodoInput';
+import TodoList from './components/TodoList';
+import {mapActions, mapGetters, mapState} from 'vuex';
+import { FILTER } from './constants.js'
+
 export default {
   name: 'app',
+  components: {TodoInput, TodoList},
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      FILTER
     }
-  }
+  },
+  computed: {
+    ...mapGetters(['getCompletedTodos']),
+  },
+  methods: {
+    ...mapActions(['deleteInputTodo', 'setFilter', 'initTodos']),
+    clearCompleted() {
+      const completedTodos = this.getCompletedTodos;
+      completedTodos.forEach((item) => this.deleteInputTodo(item.id));
+    },
+
+  },
+  created: function() {
+    this.initTodos();
+  },
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
 </style>
