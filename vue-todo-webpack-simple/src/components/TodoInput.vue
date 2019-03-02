@@ -4,16 +4,23 @@
 
 <script>
 
+import {mapActions} from 'vuex';
+
 export default {
   name: 'TodoInput',
   data () {
     return {
-      inputTodo :''
+      inputTodo : '',
     }
   },
   methods : {
+    ...mapActions(['addInputTodo']),
     insertTodo : function() {
-      this.$emit('insertTodoList', this.inputTodo);
+      let todo = {};
+      todo.todo = this.inputTodo;
+      todo.state = 'none';
+      todo.checked = false;
+      this.addInputTodo(todo);
       this.inputTodo = '';
     },
   }

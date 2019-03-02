@@ -7,4 +7,10 @@ export default {
   [MUTATION_TYPES.DELETE_TODO_INPUT]: (state, index) => {
     state.todos.splice(index, 1);
   },
+  [MUTATION_TYPES.SET_FILTER]: (state, filter) => {
+    state.filter = filter;
+  },
+  [MUTATION_TYPES.INIT_TODOS]: (state, todos) => {
+    state.todos = todos;
+  }
 }

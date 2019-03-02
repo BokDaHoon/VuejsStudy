@@ -2,9 +2,9 @@
   <ul class="todo-list">
     <li v-for="item in todos" :key="item.id" :class="{completed:item.state === 'completed'}">
       <div class="view">
-        <input class="toggle" type="checkbox" @click="togleCompleted(item.id)" v-model="item.checked">
+        <input class="toggle" type="checkbox" @click="onClickToggleTodo(item.id)" v-model="item.checked">
         <label>{{item.todo}}</label>
-        <button @click="deleteTodo(item.id)" class="destroy"></button>
+        <button @click="onClickDeleteTodo(item.id)" class="destroy"></button>
       </div>
     </li>
   </ul>
@@ -12,34 +12,36 @@
 
 <script>
 
+import {mapActions, mapGetters, mapState} from 'vuex';
+import { FILTER } from '../constants.js'
+
 export default {
   name: 'TodoList',
-  props : {
-    todos: {
-      type: Array,
-      required: true
-    }
-  },
   data () {
     return {
-      todoList : []
+      FILTER,
     }
   },
-  methods : {
-    togleCompleted(id) {
-      //this.$emit('togleCompleted', id);
-      this.todoList = this.$store.getters.getTodos;
-      const index = this.todoList.findIndex((item) => item.id === id);
-      if(this.todoList[index].state === 'none') {
-        this.todoList[index].state = 'completed'
-        this.todoList[index].checked = false;
-      } else {
-        this.todoList[index].state = 'none'
-        this.todoList[index].checked = true;
+  computed: {
+    ...mapGetters(['getTodos', 'getActiveTodos', 'getCompletedTodos']),
+    ...mapState({
+      filter: (state) => state.todo.filter,
+    }),
+    todos() {
+      switch(this.filter) {
+        case FILTER.ALL : return this.getTodos;
+        case FILTER.ACTIVE : return this.getActiveTodos;
+        case FILTER.COMPLETED : return this.getCompletedTodos;
       }
     },
-    deleteTodo(id) {
-      this.$emit('deleteTodo', id);
+  },
+  methods : {
+    ...mapActions(['deleteInputTodo', 'toggleInputTodo']),
+    onClickToggleTodo(id) {
+      this.toggleInputTodo(id);
+    },
+    onClickDeleteTodo(id) {
+      this.deleteInputTodo(id);
     }
   }
 }
